@@ -34,6 +34,10 @@ from jaxtyping import Float, Int
 from typing_extensions import Literal
 
 import transformer_lens.utilities as utils
+from transformer_lens.massive_activations import (
+    MassiveActivationReport,
+    characterize_massive_activations,
+)
 from transformer_lens.utilities import Slice, SliceInput, warn_if_mps
 
 if TYPE_CHECKING:
@@ -933,6 +937,54 @@ class ActivationCache:
                 )
             return _call(single, layer)
         return self._over_ssm_layers(_call, mixer_type=state_mixers)
+
+    def detect_massive_activations(
+        self,
+        hook_name: str = "resid_post",
+        outlier_threshold: float = 100.0,
+        plateau_ratio: float = 10.0,
+    ) -> MassiveActivationReport:
+        """Detect massive activations and classify PAS / ISP morphology.
+
+        Reads a residual-stream activation (default ``resid_post``) at every
+        layer, takes each layer's max/median |activation| ratio as the
+        massive-activation statistic, and classifies the morphology against
+        the model's per-layer mixer types: pre-attention spikes (massive
+        layers immediately before a full-attention layer) and inter-spike
+        plateaus (elevated linear-attention layers connecting successive
+        spikes). Mixer types come from ``cfg.layers_block_type`` when the
+        adapter provides them (Jamba, NemotronH, Bamba, Falcon-H1, Zamba2),
+        else fall back to :meth:`ssm_layers` — layers without an SSM mixer
+        count as full attention, so a pure attention model reports every
+        spike as a pre-attention spike (the paper's full-attention limit).
+        Works for both HookedTransformer and TransformerBridge caches.
+
+        Args:
+            hook_name: Residual-stream hook to read per layer.
+            outlier_threshold: max/median ratio counting as massive.
+            plateau_ratio: ratio counting as inter-spike plateau.
+        """
+        n_layers = self.model.cfg.n_layers
+        maxima: List[torch.Tensor] = []
+        medians: List[torch.Tensor] = []
+        for layer in range(n_layers):
+            resid = self[(hook_name, layer)].detach().abs().float().flatten()
+            maxima.append(resid.max())
+            medians.append(resid.median())
+        layer_types = list(getattr(self.model.cfg, "layers_block_type", None) or [])
+        if len(layer_types) != n_layers:
+            ssm = set(self.ssm_layers())
+            layer_types = [
+                "linear_attention" if layer in ssm else "full_attention"
+                for layer in range(n_layers)
+            ]
+        return characterize_massive_activations(
+            layer_max=torch.stack(maxima),
+            layer_median=torch.stack(medians),
+            layer_types=layer_types,
+            outlier_threshold=outlier_threshold,
+            plateau_ratio=plateau_ratio,
+        )
 
     def stack_head_results(
         self,

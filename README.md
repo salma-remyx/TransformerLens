@@ -191,6 +191,17 @@ all declare `applicable_phases = [1, 2, 3, 4]`, so their forward parity (P1, vs 
 HF), hook/cache coverage (P2/P3, which skip the HookedTransformer comparison SSMs
 lack), and generation quality (P4) are benchmarked like any transformer.
 
+## Release diagnostics for steering interventions
+
+`transformer_lens.tools.analysis.release_diagnostics` audits the
+detect-localize-release pipeline built on the JacobianLens interventions.
+"Located" does not imply "releasable": `dose_response_sweep` sweeps the
+steering strength of `JacobianLens.steering_hooks` and reports whether the
+target-logit response is monotone but plateauing (bounded linear release),
+and `gate_fire_audit` scores a detector that decides when to intervene,
+flagging silent no-ops and out-of-distribution inversions that reduce a
+gated pipeline to its base model.
+
 ## Credits
 
 This library was created by **[Neel Nanda](https://neelnanda.io)** and is maintained by **[Bryce Meyer](https://github.com/bryce13950)**.

@@ -24,7 +24,14 @@ observed_landing_zones:
       \ model.hooks APIs; consumers "
     branch: located-but-not-releasable-silent-gate-inversion-and-bounded
     timestamp: '2026-08-15T06:04:56Z'
-  last_observed: '2026-08-15T06:04:56Z'
+  - arxiv: 2608.09928v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: "transformer_lens.tools.analysis (public package API, exported\
+      \ from transformer_lens/tools/analysis/__init__.py; the tools package itself\
+      \ is re-exported from transformer_lens/__init__.py:9,59) \u2014 consum"
+    branch: multimodal-model-diffing-for-feature-discovery-and-control
+    timestamp: '2026-08-15T12:04:09Z'
+  last_observed: '2026-08-15T12:04:09Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-15T06:04:56Z'
+last_updated: '2026-08-15T12:04:09Z'

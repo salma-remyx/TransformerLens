@@ -31,7 +31,14 @@ observed_landing_zones:
       \ is re-exported from transformer_lens/__init__.py:9,59) \u2014 consum"
     branch: multimodal-model-diffing-for-feature-discovery-and-control
     timestamp: '2026-08-15T12:04:09Z'
-  last_observed: '2026-08-15T12:04:09Z'
+  - arxiv: 2608.09417v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: Exported as public library API from transformer_lens/tools/analysis/__init__.py
+      (`residual_collapse_profile`, `ResidualCollapseProfile` in `__all__`), the same
+      surface the sibling tools `direct_logit_
+    branch: a-mechanistic-diagnostic-of-rank-collapse-in-post-norm-decod
+    timestamp: '2026-08-15T21:55:32Z'
+  last_observed: '2026-08-15T21:55:32Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-15T12:04:09Z'
+last_updated: '2026-08-15T21:55:32Z'

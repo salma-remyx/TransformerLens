@@ -12,6 +12,9 @@ Tools:
     - jacobian_lens: The Jacobian lens (J-lens) — per-layer causal transport to
       the output vocabulary basis, with loading of published lens artifacts,
       native fitting, readouts, and interventions.
+    - residual_collapse_profile: Layer-wise rank-collapse diagnostic — token
+      similarity growth, effective rank, and the contraction of the RMSNorm
+      backward factor.
 """
 
 from transformer_lens.tools.analysis.direct_logit_attribution import (
@@ -26,12 +29,18 @@ from transformer_lens.tools.analysis.jacobian_lens import (
     JacobianLens,
     JacobianLensReadout,
 )
+from transformer_lens.tools.analysis.residual_collapse_profile import (
+    ResidualCollapseProfile,
+    residual_collapse_profile,
+)
 
 __all__ = [
     "DirectLogitAttribution",
     "JacobianLens",
     "JacobianLensReadout",
+    "ResidualCollapseProfile",
     "direct_logit_attribution",
     "get_act_patch_direct_path",
     "get_act_patch_direct_path_all_sources",
+    "residual_collapse_profile",
 ]

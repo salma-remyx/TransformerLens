@@ -934,6 +934,48 @@ class ActivationCache:
             return _call(single, layer)
         return self._over_ssm_layers(_call, mixer_type=state_mixers)
 
+    def massive_activation_profile(
+        self,
+        outlier_factor: float = 100.0,
+        persist_factor: float = 10.0,
+        full_attention_layers: Optional[List[int]] = None,
+        ssm_layers: Optional[List[int]] = None,
+    ):
+        """Profile layerwise massive-activation morphology on a hybrid bridge.
+
+        Cache-level entry point for the pre-attention-spike / inter-spike-plateau
+        analysis of hybrid linear-attention models: per-block max-|activation|
+        over the pre-block residual, which spikes land immediately before a full
+        attention layer, and whether a spike's channels persist through the SSM
+        layers between successive spikes. Adapted from arXiv:2608.12149.
+
+        Args:
+            outlier_factor: Multiple of the layer median defining a massive channel.
+            persist_factor: Weaker multiple used to trace channels across layers.
+            full_attention_layers: Optional explicit full-attention block indices,
+                overriding structural detection.
+            ssm_layers: Optional explicit SSM block indices, overriding
+                ``cache.ssm_layers()``.
+
+        Returns:
+            A ``MassiveActivationProfile`` (see
+            ``transformer_lens.utilities.massive_activation_profile``).
+
+        Raises:
+            RuntimeError: If no block exposes a cached pre-block residual.
+        """
+        from transformer_lens.utilities.massive_activation_profile import (
+            profile_massive_activations,
+        )
+
+        return profile_massive_activations(
+            self,
+            outlier_factor=outlier_factor,
+            persist_factor=persist_factor,
+            full_attention_layers=full_attention_layers,
+            ssm_layers=ssm_layers,
+        )
+
     def stack_head_results(
         self,
         layer: int = -1,

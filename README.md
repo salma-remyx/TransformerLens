@@ -191,6 +191,13 @@ all declare `applicable_phases = [1, 2, 3, 4]`, so their forward parity (P1, vs 
 HF), hook/cache coverage (P2/P3, which skip the HookedTransformer comparison SSMs
 lack), and generation quality (P4) are benchmarked like any transformer.
 
+For hybrid (linear attention + full attention) models, `cache.massive_activation_profile()`
+(`transformer_lens/utilities/massive_activation_profile.py`) profiles the layerwise
+massive-activation morphology from a cached forward pass — which spikes land immediately
+before full attention layers (pre-attention spikes) and whether their channels persist
+through the SSM layers between spikes (inter-spike plateaus). Adapted from
+*Massive Activations in Hybrid Linear Attention Large Language Models* (arXiv:2608.12149).
+
 ## Credits
 
 This library was created by **[Neel Nanda](https://neelnanda.io)** and is maintained by **[Bryce Meyer](https://github.com/bryce13950)**.

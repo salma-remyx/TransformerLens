@@ -223,3 +223,29 @@ Please cite this library as:
     howpublished = {\url{https://github.com/TransformerLensOrg/TransformerLens}},
 }
 ```
+
+## Sparse-dictionary feature diffing
+
+`transformer_lens.tools.analysis.feature_diff` diffs two sparse-autoencoder
+dictionaries over the same residual stream to find the features a model
+adaptation changed — adapted from
+[Multimodal Model Diffing for Feature Discovery and Control](https://arxiv.org/abs/2608.09928v1)
+(MMDiff), whose base-vs-adapted SAE diffing is applied here to cached
+activations from either system in this repo:
+
+* `SAE.fit(activations)` — natively fit a top-K SAE on cached residual
+  activations (e.g. `cache["blocks.5.hook_out"]`); no external artifacts
+  required, though plain decoder matrices can be supplied too
+* `feature_diff(base, adapted)` — match features by decoder-direction cosine
+  similarity and rank them by direction change plus firing-rate change;
+  repurposed features sort to the top, suppressed ones to `bottom()`
+* `contrastive_firing(sae, clean, contrast)` — parameter-free per-token
+  detector for features whose firing is caused by the contrast side of a
+  paired input
+* `control_hooks(sae, model, features)` — ablate or steer (`alpha != 0`) the
+  discovered feature directions through the same `blocks.{layer}.hook_out`
+  surface the Jacobian lens interventions use
+
+Because everything consumes cached hidden states, the analysis applies to a
+multimodal tower's activations as-is; full multimodal generation remains out
+of scope. Tests: `tests/unit/tools/test_feature_diff.py`.

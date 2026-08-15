@@ -12,6 +12,10 @@ Tools:
     - jacobian_lens: The Jacobian lens (J-lens) — per-layer causal transport to
       the output vocabulary basis, with loading of published lens artifacts,
       native fitting, readouts, and interventions.
+    - feature_diff: Sparse-dictionary diffing — fit or load two SAE
+      dictionaries over the same residual stream and rank the features an
+      adaptation changed, with per-token contrastive firing and
+      ablation/steering hooks for the discovered features.
 """
 
 from transformer_lens.tools.analysis.direct_logit_attribution import (
@@ -22,6 +26,13 @@ from transformer_lens.tools.analysis.direct_path_patching import (
     get_act_patch_direct_path,
     get_act_patch_direct_path_all_sources,
 )
+from transformer_lens.tools.analysis.feature_diff import (
+    SAE,
+    FeatureDiff,
+    contrastive_firing,
+    control_hooks,
+    feature_diff,
+)
 from transformer_lens.tools.analysis.jacobian_lens import (
     JacobianLens,
     JacobianLensReadout,
@@ -29,9 +40,14 @@ from transformer_lens.tools.analysis.jacobian_lens import (
 
 __all__ = [
     "DirectLogitAttribution",
+    "FeatureDiff",
     "JacobianLens",
     "JacobianLensReadout",
+    "SAE",
+    "contrastive_firing",
+    "control_hooks",
     "direct_logit_attribution",
+    "feature_diff",
     "get_act_patch_direct_path",
     "get_act_patch_direct_path_all_sources",
 ]

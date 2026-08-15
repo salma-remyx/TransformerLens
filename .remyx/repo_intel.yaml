@@ -13,6 +13,18 @@ observed_landing_zones:
     branch: massive-activations-in-hybrid-linear-attention-large-languag-v2
     timestamp: '2026-08-15T00:04:45Z'
   last_observed: '2026-08-15T00:04:45Z'
+- path: transformer_lens/tools/analysis/
+  shape_tags:
+  - library-shape-public-api
+  confirmed_by:
+  - arxiv: 2608.11822v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: "(none internally) \u2014 new leaf tool module transformer_lens/tools/analysis/release_diagnostics.py,\
+      \ anchored on the existing JacobianLens.steering_hooks and TransformerBridge\
+      \ model.hooks APIs; consumers "
+    branch: located-but-not-releasable-silent-gate-inversion-and-bounded
+    timestamp: '2026-08-15T06:04:56Z'
+  last_observed: '2026-08-15T06:04:56Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-15T00:04:45Z'
+last_updated: '2026-08-15T06:04:56Z'

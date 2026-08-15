@@ -1,0 +1,18 @@
+schema_version: 1
+fork: salma-remyx/TransformerLens
+observed_landing_zones:
+- path: transformer_lens/utilities/
+  shape_tags:
+  - unclassified
+  confirmed_by:
+  - arxiv: 2608.12149v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: "transformer_lens.ActivationCache.ActivationCache.massive_activation_profile\
+      \ \u2014 a new public method on ActivationCache, the library's central cache\
+      \ object returned by run_with_cache; also exported at pa"
+    branch: massive-activations-in-hybrid-linear-attention-large-languag-v2
+    timestamp: '2026-08-15T00:04:45Z'
+  last_observed: '2026-08-15T00:04:45Z'
+rejected_shapes: []
+coordination_signals: []
+last_updated: '2026-08-15T00:04:45Z'

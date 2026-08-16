@@ -12,6 +12,9 @@ Tools:
     - jacobian_lens: The Jacobian lens (J-lens) — per-layer causal transport to
       the output vocabulary basis, with loading of published lens artifacts,
       native fitting, readouts, and interventions.
+    - subspace_patching: Subspace activation patching (Eq. 1 of Makelov et al.,
+      2023) plus the ker/rowspace diagnostics that separate a faithful
+      subspace from an illusory one.
 """
 
 from transformer_lens.tools.analysis.direct_logit_attribution import (
@@ -26,12 +29,26 @@ from transformer_lens.tools.analysis.jacobian_lens import (
     JacobianLens,
     JacobianLensReadout,
 )
+from transformer_lens.tools.analysis.subspace_patching import (
+    SubspacePatchReport,
+    fractional_logit_diff_decrease,
+    nullspace_rowspace_decomposition,
+    projection_spread,
+    subspace_patch_faithfulness,
+    subspace_patch_setter,
+)
 
 __all__ = [
     "DirectLogitAttribution",
     "JacobianLens",
     "JacobianLensReadout",
+    "SubspacePatchReport",
     "direct_logit_attribution",
+    "fractional_logit_diff_decrease",
     "get_act_patch_direct_path",
     "get_act_patch_direct_path_all_sources",
+    "nullspace_rowspace_decomposition",
+    "projection_spread",
+    "subspace_patch_faithfulness",
+    "subspace_patch_setter",
 ]

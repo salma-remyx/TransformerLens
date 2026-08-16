@@ -87,6 +87,8 @@ Research done involving TransformerLens:
 * [Eliciting Latent Predictions from Transformers with the Tuned
   Lens](https://arxiv.org/abs/2303.08112) by Nora Belrose, Zach Furman, Logan Smith, Danny Halawi,
   Igor Ostrovsky, Lev McKinney, Stella Biderman, Jacob Steinhardt
+* [Is This the Subspace You Are Looking for? An Interpretability Illusion for Subspace Activation
+  Patching](https://arxiv.org/abs/2311.17030) by Aleksandar Makelov, Georg Lange, Neel Nanda
 
 User contributed examples of the library being used in action:
 

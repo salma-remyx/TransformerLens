@@ -38,7 +38,14 @@ observed_landing_zones:
       surface the sibling tools `direct_logit_
     branch: a-mechanistic-diagnostic-of-rank-collapse-in-post-norm-decod
     timestamp: '2026-08-15T21:55:32Z'
-  last_observed: '2026-08-15T21:55:32Z'
+  - arxiv: 2608.11847v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: 'Public library API surface: re-exported from transformer_lens.tools.analysis.__init__.__all__
+      alongside DirectLogitAttribution and JacobianLens, which is how external library
+      users reach analysis tool'
+    branch: lookback-where-and-how-to-score-lvlm-responses-via-visual-re
+    timestamp: '2026-08-17T13:23:50Z'
+  last_observed: '2026-08-17T13:23:50Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-15T21:55:32Z'
+last_updated: '2026-08-17T13:23:50Z'

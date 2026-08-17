@@ -45,7 +45,14 @@ observed_landing_zones:
       users reach analysis tool'
     branch: lookback-where-and-how-to-score-lvlm-responses-via-visual-re
     timestamp: '2026-08-17T13:23:50Z'
-  last_observed: '2026-08-17T13:23:50Z'
+  - arxiv: 2608.07077v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: "Public library API: exported from transformer_lens/tools/analysis/__init__.py\
+      \ (the same surface direct_logit_attribution and jacobian_lens ship on). No\
+      \ internal production module invokes it \u2014 external"
+    branch: transformers-struggle-to-use-their-emergent-world-models-rev
+    timestamp: '2026-08-17T20:58:33Z'
+  last_observed: '2026-08-17T20:58:33Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-17T13:23:50Z'
+last_updated: '2026-08-17T20:58:33Z'

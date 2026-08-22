@@ -52,7 +52,14 @@ observed_landing_zones:
       \ internal production module invokes it \u2014 external"
     branch: transformers-struggle-to-use-their-emergent-world-models-rev
     timestamp: '2026-08-17T20:58:33Z'
-  last_observed: '2026-08-17T20:58:33Z'
+  - arxiv: 2311.17030v2
+    mode: Mode 2 (adapted port)
+    call_site_specifics: transformer_lens/patching.py:337 (new public `layer_pos_subspace_patch_setter`
+      re-exported alongside the existing setters, pluggable into the pre-existing
+      `generic_activation_patch` loop) and transfor
+    branch: is-this-the-subspace-you-are-looking-for-an-interpretability-v2
+    timestamp: '2026-08-22T11:58:28Z'
+  last_observed: '2026-08-22T11:58:28Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-17T20:58:33Z'
+last_updated: '2026-08-22T11:58:28Z'

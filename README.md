@@ -191,6 +191,61 @@ all declare `applicable_phases = [1, 2, 3, 4]`, so their forward parity (P1, vs 
 HF), hook/cache coverage (P2/P3, which skip the HookedTransformer comparison SSMs
 lack), and generation quality (P4) are benchmarked like any transformer.
 
+## Cross-model activation transfer (experimental)
+
+`transformer_lens.tools.analysis.activation_transfer` implements the three-level
+protocol of [Architecture-Dependent Causal Transfer of Activation States Across Large
+Language Models](https://arxiv.org/abs/2608.16347) on TransformerBridge primitives, so
+one model's hidden states can be compared with, projected into, and causally injected
+into another model:
+
+* **Representational similarity** — `mutual_knn_alignment` scores how often the same
+  items are mutual k-nearest neighbours in both hidden spaces. The score is rank-based
+  over cosine neighbours, so the activation-magnitude outliers that dominate CKA and
+  Procrustes cannot move it (`linear_cka` ships alongside for that comparison).
+* **Cross-model retrieval** — `ActivationProjection` fits a closed-form
+  ridge-regularized linear map from the source to the target hidden space on paired
+  activations, and scores whether a projected held-out source state retrieves its
+  matching target state (top-1 accuracy against a `1/n` chance rate).
+* **Causal injection** — `residual_injection_hooks` overwrites a target block's residual
+  stream with projected source activations during generation, using the same
+  `[batch, position, d_model]` intervention contract as the JacobianLens steering/swap
+  hooks.
+
+`cross_model_transfer_report` runs levels 1–2 over one shared prompt set (with a
+permutation null for the alignment score and a row-permuted negative control for
+retrieval) and returns the fitted projection, ready for the injection hooks:
+
+```python
+from transformer_lens.model_bridge import TransformerBridge
+from transformer_lens.tools.analysis import (
+    cross_model_transfer_report,
+    residual_injection_hooks,
+)
+
+source = TransformerBridge.boot_transformers("Qwen/Qwen2-0.5B", device="cpu")
+target = TransformerBridge.boot_transformers("gpt2", device="cpu")
+
+report = cross_model_transfer_report(
+    source,
+    target,
+    prompts=open("prompts.txt").read().splitlines(),
+    source_layer=6,
+    target_layer=6,
+)
+print(report.mutual_knn, report.mutual_knn_p_value)
+print(report.retrieval_top1, "vs chance", report.retrieval_chance)
+
+# Level 3: inject a projected source state into the target model's residual stream.
+hooks = residual_injection_hooks(target, projected_row, report.projection.target_layer)
+```
+
+Both models must be freshly booted, raw `TransformerBridge` instances — compatibility
+mode changes the residual basis being compared and is refused. The paper's projection
+*network* is replaced by the linear map (deterministic, no training loop; linear
+readout is the standard alignment baseline), and its four-model study with
+pre-registered statistics belongs to downstream experiment code.
+
 ## Credits
 
 This library was created by **[Neel Nanda](https://neelnanda.io)** and is maintained by **[Bryce Meyer](https://github.com/bryce13950)**.

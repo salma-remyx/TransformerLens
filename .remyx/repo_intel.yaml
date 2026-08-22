@@ -59,7 +59,14 @@ observed_landing_zones:
       `generic_activation_patch` loop) and transfor
     branch: is-this-the-subspace-you-are-looking-for-an-interpretability-v2
     timestamp: '2026-08-22T11:58:28Z'
-  last_observed: '2026-08-22T11:58:28Z'
+  - arxiv: 2608.16347v1
+    mode: Mode 2 (adapted port)
+    call_site_specifics: "(none internally) \u2014 exported as public library API\
+      \ from transformer_lens/tools/analysis/__init__.py, the same landing zone and\
+      \ export pattern as jacobian_lens and direct_logit_attribution; external li"
+    branch: architecture-dependent-causal-transfer-of-activation-states-
+    timestamp: '2026-08-22T20:39:26Z'
+  last_observed: '2026-08-22T20:39:26Z'
 rejected_shapes: []
 coordination_signals: []
-last_updated: '2026-08-22T11:58:28Z'
+last_updated: '2026-08-22T20:39:26Z'

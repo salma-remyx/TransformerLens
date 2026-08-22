@@ -12,6 +12,9 @@ Tools:
     - jacobian_lens: The Jacobian lens (J-lens) — per-layer causal transport to
       the output vocabulary basis, with loading of published lens artifacts,
       native fitting, readouts, and interventions.
+    - subspace_patching: Subspace-constrained activation patching, plus the
+      bidirectional asymmetry diagnostic that separates subspaces which carry
+      a feature from those whose apparent effect is illusory.
 """
 
 from transformer_lens.tools.analysis.direct_logit_attribution import (
@@ -26,12 +29,22 @@ from transformer_lens.tools.analysis.jacobian_lens import (
     JacobianLens,
     JacobianLensReadout,
 )
+from transformer_lens.tools.analysis.subspace_patching import (
+    SubspacePatchSweeps,
+    get_act_patch_resid_subspace_all_pos,
+    layer_pos_subspace_patch_setter,
+    subspace_patch_asymmetry,
+)
 
 __all__ = [
     "DirectLogitAttribution",
     "JacobianLens",
     "JacobianLensReadout",
+    "SubspacePatchSweeps",
     "direct_logit_attribution",
     "get_act_patch_direct_path",
     "get_act_patch_direct_path_all_sources",
+    "get_act_patch_resid_subspace_all_pos",
+    "layer_pos_subspace_patch_setter",
+    "subspace_patch_asymmetry",
 ]

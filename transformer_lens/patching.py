@@ -334,6 +334,35 @@ def layer_head_dest_src_pos_pattern_patch_setter(
     return corrupted_activation
 
 
+def layer_pos_subspace_patch_setter(
+    corrupted_activation: torch.Tensor,
+    index,
+    clean_activation: torch.Tensor,
+    subspace: torch.Tensor,
+):
+    """
+    Applies the activation patch where index = [layer, pos], confined to a subspace.
+
+    Rather than overwriting the whole activation at (layer, pos), only the component
+    along the given subspace is replaced with the clean run's value there, leaving the
+    orthogonal complement untouched. This is the intervention used to test whether a
+    low-dimensional subspace carries a specific feature — and, per arXiv:2311.17030,
+    the one whose attribution can be illusory. See
+    :mod:`transformer_lens.tools.analysis.subspace_patching` for the bidirectional
+    diagnostic that checks it.
+
+    ``subspace`` spans the last axis of the activation (d_model for residual-stream
+    activations) and need not be orthonormal; it is orthonormalised internally. Pass it
+    with :func:`functools.partial` when plugging this into
+    :func:`generic_activation_patch`.
+    """
+    from transformer_lens.tools.analysis.subspace_patching import (
+        layer_pos_subspace_patch_setter as _subspace_setter,
+    )
+
+    return _subspace_setter(corrupted_activation, index, clean_activation, subspace)
+
+
 # %%
 # Defining activation patching functions for a range of common activation patches.
 get_act_patch_resid_pre = partial(
